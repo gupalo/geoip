@@ -78,3 +78,21 @@ Also you can get raw data from:
         $geoIp->getMaxMindDomainRaw(),
         $geoIp->getMaxMindIspRaw(),
     ];
+
+Symfony
+-------
+
+Add to `config/services.yaml`
+
+    Gupalo\GeoIp\GeoIpParser:
+        arguments: ['%kernel.project_dir%/data/geoip']
+
+Use with autowire
+
+    /**
+     * @Route("/test", name="test")
+     */
+    public function test(GeoIpParser $geoIpParser): Response
+    {
+        dd($geoIpParser->parse('1.1.1.1'));
+    }

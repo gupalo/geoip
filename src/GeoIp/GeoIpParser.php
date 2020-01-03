@@ -170,40 +170,42 @@ class GeoIpParser
         $maxMindIspRaw = null;
 
         if ($isValidIp) {
-            $sypexLanguage = ($this->maxMindLanguage === 'ru') ? 'ru' : 'en';
-            $sypexCityRaw = $this->sxGeo->getCityFull($ip);
+            if ($this->sxGeo) {
+                $sypexLanguage = ($this->maxMindLanguage === 'ru') ? 'ru' : 'en';
+                $sypexCityRaw = $this->sxGeo->getCityFull($ip);
 
-            $sypexCityLatitude = $sypexCityRaw['city']['lat'] ?? null;
-            $sypexCityLongitude = $sypexCityRaw['city']['lon'] ?? null;
-            $sypexCity = $sypexCityRaw['city']['name_' . $sypexLanguage] ?? null;
-            $sypexCityOkato = $sypexCityRaw['city']['okato'] ?? null;
-            $sypexCityVk = $sypexCityRaw['city']['vk'] ?? null;
-            $sypexCityPopulation = $sypexCityRaw['city']['population'] ?? null;
-            $sypexCityTel = $sypexCityRaw['city']['tel'] ?? null;
-            $sypexCityPostalCode = $sypexCityRaw['city']['post'] ?? null;
+                $sypexCityLatitude = $sypexCityRaw['city']['lat'] ?? null;
+                $sypexCityLongitude = $sypexCityRaw['city']['lon'] ?? null;
+                $sypexCity = $sypexCityRaw['city']['name_' . $sypexLanguage] ?? null;
+                $sypexCityOkato = !empty($sypexCityRaw['city']['okato']) ? (int)$sypexCityRaw['city']['okato'] : null;
+                $sypexCityVk = $sypexCityRaw['city']['vk'] ?? null;
+                $sypexCityPopulation = $sypexCityRaw['city']['population'] ?? null;
+                $sypexCityTel = $sypexCityRaw['city']['tel'] ?? null;
+                $sypexCityPostalCode = $sypexCityRaw['city']['post'] ?? null;
 
-            $sypexRegionLatitude = $sypexCityRaw['region']['lat'] ?? null;
-            $sypexRegionLongitude = $sypexCityRaw['region']['lon'] ?? null;
-            $sypexRegion = $sypexCityRaw['region']['name_' . $sypexLanguage] ?? null;
-            $sypexRegionCode = $sypexCityRaw['region']['iso'] ?? null;
-            $sypexRegionTimezone = $sypexCityRaw['region']['timezone'] ?? null;
-            $sypexRegionOkato = $sypexCityRaw['region']['okato'] ?? null;
-            $sypexRegionAuto = $sypexCityRaw['region']['auto'] ?? null;
-            $sypexRegionVk = $sypexCityRaw['region']['vk'] ?? null;
+                $sypexRegionLatitude = $sypexCityRaw['region']['lat'] ?? null;
+                $sypexRegionLongitude = $sypexCityRaw['region']['lon'] ?? null;
+                $sypexRegion = $sypexCityRaw['region']['name_' . $sypexLanguage] ?? null;
+                $sypexRegionCode = $sypexCityRaw['region']['iso'] ?? null;
+                $sypexRegionTimezone = $sypexCityRaw['region']['timezone'] ?? null;
+                $sypexRegionOkato = !empty($sypexRegionRaw['region']['okato']) ? (int)$sypexRegionRaw['region']['okato'] : null;
+                $sypexRegionAuto = $sypexCityRaw['region']['auto'] ?? null;
+                $sypexRegionVk = $sypexCityRaw['region']['vk'] ?? null;
 
-            $sypexCountryLatitude = $sypexCityRaw['country']['lat'] ?? null;
-            $sypexCountryLongitude = $sypexCityRaw['country']['lon'] ?? null;
-            $sypexCountry = $sypexCityRaw['country']['name_' . $sypexLanguage] ?? null;
-            $sypexCountryCode = $sypexCityRaw['country']['iso'] ?? null;
-            $sypexCountryContinentCode = $sypexCityRaw['country']['continent'] ?? null;
-            $sypexCountryTimezone = $sypexCityRaw['country']['timezone'] ?? null;
-            $sypexCountryArea = $sypexCityRaw['country']['area'] ?? null;
-            $sypexCountryPopulation = $sypexCityRaw['country']['population'] ?? null;
-            $sypexCountryCapital = $sypexCityRaw['country']['capital_' . $sypexLanguage] ?? null;
-            $sypexCountryCurrencyCode = $sypexCityRaw['country']['cur_code'] ?? null;
-            $sypexCountryPhoneCode = $sypexCityRaw['country']['phone'] ?? null;
-            $sypexCountryNeighbours = $sypexCityRaw['country']['neighbours'] ?? null;
-            $sypexCountryVk = $sypexCityRaw['country']['vk'] ?? null;
+                $sypexCountryLatitude = $sypexCityRaw['country']['lat'] ?? null;
+                $sypexCountryLongitude = $sypexCityRaw['country']['lon'] ?? null;
+                $sypexCountry = $sypexCityRaw['country']['name_' . $sypexLanguage] ?? null;
+                $sypexCountryCode = $sypexCityRaw['country']['iso'] ?? null;
+                $sypexCountryContinentCode = $sypexCityRaw['country']['continent'] ?? null;
+                $sypexCountryTimezone = $sypexCityRaw['country']['timezone'] ?? null;
+                $sypexCountryArea = $sypexCityRaw['country']['area'] ?? null;
+                $sypexCountryPopulation = $sypexCityRaw['country']['population'] ?? null;
+                $sypexCountryCapital = $sypexCityRaw['country']['capital_' . $sypexLanguage] ?? null;
+                $sypexCountryCurrencyCode = $sypexCityRaw['country']['cur_code'] ?? null;
+                $sypexCountryPhoneCode = $sypexCityRaw['country']['phone'] ?? null;
+                $sypexCountryNeighbours = $sypexCityRaw['country']['neighbours'] ?? null;
+                $sypexCountryVk = $sypexCityRaw['country']['vk'] ?? null;
+            }
 
             try {
                 $maxMindCountryRaw = $this->maxMindCountryReader->get($ip);
