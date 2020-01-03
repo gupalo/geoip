@@ -2,190 +2,436 @@
 
 namespace Gupalo\GeoIp;
 
-use MaxMind\Db\Reader;
-use MaxMind\Db\Reader\InvalidDatabaseException;
-use Throwable;
-
 class GeoIp
 {
-    /** @var string|null */
-    private $maxMindCityDbFilename;
+    /** @var string */
+    protected $ip;
+
+    /** @var bool|null */
+    protected $isValidIp;
+
+    /** @var float|null */
+    protected $sypexCityLatitude;
+
+    /** @var float|null */
+    protected $sypexCityLongitude;
 
     /** @var string|null */
-    private $maxMindCountryDbFilename;
+    protected $sypexCity;
+
+    /** @var int|null */
+    protected $sypexCityOkato;
+
+    /** @var bool|null */
+    protected $sypexCityVk;
+
+    /** @var int|null */
+    protected $sypexCityPopulation;
 
     /** @var string|null */
-    private $maxMindDomainDbFilename;
+    protected $sypexCityTel;
 
     /** @var string|null */
-    private $maxMindIspDbFilename;
+    protected $sypexCityPostalCode;
+
+    /** @var float|null */
+    protected $sypexRegionLatitude;
+
+    /** @var float|null */
+    protected $sypexRegionLongitude;
 
     /** @var string|null */
-    private $sypexGeoMaxFilename;
+    protected $sypexRegion;
 
-    /** @var Reader|null */
-    private $maxMindCityReader;
+    /** @var string|null */
+    protected $sypexRegionCode;
 
-    /** @var Reader|null */
-    private $maxMindCountryReader;
+    /** @var string|null */
+    protected $sypexRegionTimezone;
 
-    /** @var Reader|null */
-    private $maxMindDomainReader;
+    /** @var int|null */
+    protected $sypexRegionOkato;
 
-    /** @var Reader|null */
-    private $maxMindIspReader;
+    /** @var string|null */
+    protected $sypexRegionAuto;
 
-    /** @var SxGeo|null */
-    private $sxGeo;
+    /** @var bool|null */
+    protected $sypexRegionVk;
+
+    /** @var float|null */
+    protected $sypexCountryLatitude;
+
+    /** @var float|null */
+    protected $sypexCountryLongitude;
+
+    /** @var string|null */
+    protected $sypexCountry;
+
+    /** @var string|null */
+    protected $sypexCountryCode;
+
+    /** @var string|null */
+    protected $sypexCountryContinentCode;
+
+    /** @var string|null */
+    protected $sypexCountryTimezone;
+
+    /** @var int|null */
+    protected $sypexCountryArea;
+
+    /** @var int|null */
+    protected $sypexCountryPopulation;
+
+    /** @var string|null */
+    protected $sypexCountryCapital;
+
+    /** @var string|null */
+    protected $sypexCountryCurrencyCode;
+
+    /** @var string|null */
+    protected $sypexCountryPhoneCode;
+
+    /** @var string|null */
+    protected $sypexCountryNeighbours;
+
+    /** @var bool|null */
+    protected $sypexCountryVk;
+
+    /** @var string|null */
+    protected $maxMindCountryContinentCode;
+
+    /** @var string|null */
+    protected $maxMindCountryContinent;
+
+    /** @var string|null */
+    protected $maxMindCountryCountryCode;
+
+    /** @var string|null */
+    protected $maxMindCountryCountry;
+
+    /** @var string|null */
+    protected $maxMindCountryRegisteredCountryCode;
+
+    /** @var string|null */
+    protected $maxMindCountryRegisteredCountry;
+
+    /** @var string|null */
+    protected $maxMindCityCity;
+
+    /** @var string|null */
+    protected $maxMindCityContinentCode;
+
+    /** @var string|null */
+    protected $maxMindCityContinent;
+
+    /** @var string|null */
+    protected $maxMindCityCountryCode;
+
+    /** @var string|null */
+    protected $maxMindCityCountry;
+
+    /** @var string|null */
+    protected $maxMindCityRegisteredCountryCode;
+
+    /** @var string|null */
+    protected $maxMindCityRegisteredCountry;
+
+    /** @var float|null */
+    protected $maxMindCityLatitude;
+
+    /** @var float|null */
+    protected $maxMindCityLongitude;
+
+    /** @var float|null */
+    protected $maxMindCityLocationAccuracyRadius;
+
+    /** @var string|null */
+    protected $maxMindCitySubdivision;
+
+    /** @var string|null */
+    protected $maxMindCityTimeZone;
+
+    /** @var string|null */
+    protected $maxMindCityPostalCode;
+
+    /** @var string|null */
+    protected $maxMindDomainDomain;
+
+    /** @var string|null */
+    protected $maxMindIspAsnNumber;
+
+    /** @var string|null */
+    protected $maxMindIspAsnOrganization;
+
+    /** @var string|null */
+    protected $maxMindIspIsp;
+
+    /** @var string|null */
+    protected $maxMindIspOrganization;
+
+    /** @var mixed|null */
+    protected $sypexCityRaw;
+
+    /** @var mixed|null */
+    protected $maxMindCountryRaw;
+
+    /** @var mixed|null */
+    protected $maxMindCityRaw;
+
+    /** @var mixed|null */
+    protected $maxMindDomainRaw;
+
+    /** @var mixed|null */
+    protected $maxMindIspRaw;
 
     public function __construct(
-        string $maxMindCityDbFilename = null,
-        string $maxMindCountryDbFilename = null,
-        string $maxMindDomainDbFilename = null,
-        string $maxMindIspDbFilename = null,
-        string $sypexGeoMaxFilename = null
+        ?string $ip,
+        ?bool $isValidIp,
+        $sypexCityRaw,
+        $maxMindCountryRaw,
+        $maxMindCityRaw,
+        $maxMindDomainRaw,
+        $maxMindIspRaw,
+        ?float $sypexCityLatitude,
+        ?float $sypexCityLongitude,
+        ?string $sypexCity,
+        ?int $sypexCityOkato,
+        ?bool $sypexCityVk,
+        ?int $sypexCityPopulation,
+        ?string $sypexCityTel,
+        ?string $sypexCityPostalCode,
+        ?float $sypexRegionLatitude,
+        ?float $sypexRegionLongitude,
+        ?string $sypexRegion,
+        ?string $sypexRegionCode,
+        ?string $sypexRegionTimezone,
+        ?int $sypexRegionOkato,
+        ?string $sypexRegionAuto,
+        ?bool $sypexRegionVk,
+        ?float $sypexCountryLatitude,
+        ?float $sypexCountryLongitude,
+        ?string $sypexCountry,
+        ?string $sypexCountryCode,
+        ?string $sypexCountryContinentCode,
+        ?string $sypexCountryTimezone,
+        ?int $sypexCountryArea,
+        ?int $sypexCountryPopulation,
+        ?string $sypexCountryCapital,
+        ?string $sypexCountryCurrencyCode,
+        ?string $sypexCountryPhoneCode,
+        ?string $sypexCountryNeighbours,
+        ?bool $sypexCountryVk,
+        ?string $maxMindCountryContinentCode,
+        ?string $maxMindCountryContinent,
+        ?string $maxMindCountryCountryCode,
+        ?string $maxMindCountryCountry,
+        ?string $maxMindCountryRegisteredCountryCode,
+        ?string $maxMindCountryRegisteredCountry,
+        ?string $maxMindCityCity,
+        ?string $maxMindCityContinentCode,
+        ?string $maxMindCityContinent,
+        ?string $maxMindCityCountryCode,
+        ?string $maxMindCityCountry,
+        ?string $maxMindCityRegisteredCountryCode,
+        ?string $maxMindCityRegisteredCountry,
+        ?float $maxMindCityLatitude,
+        ?float $maxMindCityLongitude,
+        ?string $maxMindCityLocationAccuracyRadius,
+        ?string $maxMindCitySubdivision,
+        ?string $maxMindCityTimeZone,
+        ?string $maxMindCityPostalCode,
+        ?string $maxMindDomainDomain,
+        ?string $maxMindIspAsnNumber,
+        ?string $maxMindIspAsnOrganization,
+        ?string $maxMindIspIsp,
+        ?string $maxMindIspOrganization
     ) {
-        $this->maxMindCityDbFilename = $maxMindCityDbFilename;
-        $this->maxMindCountryDbFilename = $maxMindCountryDbFilename;
-        $this->maxMindDomainDbFilename = $maxMindDomainDbFilename;
-        $this->maxMindIspDbFilename = $maxMindIspDbFilename;
-        $this->sypexGeoMaxFilename = $sypexGeoMaxFilename;
+        $this->ip = $ip;
+        $this->isValidIp = $isValidIp;
+
+        $this->sypexCityLatitude = $sypexCityLatitude;
+        $this->sypexCityLongitude = $sypexCityLongitude;
+        $this->sypexCity = $sypexCity;
+        $this->sypexCityOkato = $sypexCityOkato;
+        $this->sypexCityVk = $sypexCityVk;
+        $this->sypexCityPopulation = $sypexCityPopulation;
+        $this->sypexCityTel = $sypexCityTel;
+        $this->sypexCityPostalCode = $sypexCityPostalCode;
+        $this->sypexRegionLatitude = $sypexRegionLatitude;
+        $this->sypexRegionLongitude = $sypexRegionLongitude;
+        $this->sypexRegion = $sypexRegion;
+        $this->sypexRegionCode = $sypexRegionCode;
+        $this->sypexRegionTimezone = $sypexRegionTimezone;
+        $this->sypexRegionOkato = $sypexRegionOkato;
+        $this->sypexRegionAuto = $sypexRegionAuto;
+        $this->sypexRegionVk = $sypexRegionVk;
+        $this->sypexCountryLatitude = $sypexCountryLatitude;
+        $this->sypexCountryLongitude = $sypexCountryLongitude;
+        $this->sypexCountry = $sypexCountry;
+        $this->sypexCountryCode = $sypexCountryCode;
+        $this->sypexCountryContinentCode = $sypexCountryContinentCode;
+        $this->sypexCountryTimezone = $sypexCountryTimezone;
+        $this->sypexCountryArea = $sypexCountryArea;
+        $this->sypexCountryPopulation = $sypexCountryPopulation;
+        $this->sypexCountryCapital = $sypexCountryCapital;
+        $this->sypexCountryCurrencyCode = $sypexCountryCurrencyCode;
+        $this->sypexCountryPhoneCode = $sypexCountryPhoneCode;
+        $this->sypexCountryNeighbours = $sypexCountryNeighbours;
+        $this->sypexCountryVk = $sypexCountryVk;
+
+        $this->maxMindCountryContinentCode = $maxMindCountryContinentCode;
+        $this->maxMindCountryContinent = $maxMindCountryContinent;
+        $this->maxMindCountryCountryCode = $maxMindCountryCountryCode;
+        $this->maxMindCountryCountry = $maxMindCountryCountry;
+        $this->maxMindCountryRegisteredCountryCode = $maxMindCountryRegisteredCountryCode;
+        $this->maxMindCountryRegisteredCountry = $maxMindCountryRegisteredCountry;
+        $this->maxMindCityCity = $maxMindCityCity;
+        $this->maxMindCityContinentCode = $maxMindCityContinentCode;
+        $this->maxMindCityContinent = $maxMindCityContinent;
+        $this->maxMindCityCountryCode = $maxMindCityCountryCode;
+        $this->maxMindCityCountry = $maxMindCityCountry;
+        $this->maxMindCityRegisteredCountryCode = $maxMindCityRegisteredCountryCode;
+        $this->maxMindCityRegisteredCountry = $maxMindCityRegisteredCountry;
+        $this->maxMindCityLatitude = $maxMindCityLatitude;
+        $this->maxMindCityLongitude = $maxMindCityLongitude;
+        $this->maxMindCityLocationAccuracyRadius = $maxMindCityLocationAccuracyRadius;
+        $this->maxMindCitySubdivision = $maxMindCitySubdivision;
+        $this->maxMindCityTimeZone = $maxMindCityTimeZone;
+        $this->maxMindCityPostalCode = $maxMindCityPostalCode;
+        $this->maxMindDomainDomain = $maxMindDomainDomain;
+        $this->maxMindIspAsnNumber = $maxMindIspAsnNumber;
+        $this->maxMindIspAsnOrganization = $maxMindIspAsnOrganization;
+        $this->maxMindIspIsp = $maxMindIspIsp;
+        $this->maxMindIspOrganization = $maxMindIspOrganization;
+        $this->sypexCityRaw = $sypexCityRaw;
+        $this->maxMindCountryRaw = $maxMindCountryRaw;
+        $this->maxMindCityRaw = $maxMindCityRaw;
+        $this->maxMindDomainRaw = $maxMindDomainRaw;
+        $this->maxMindIspRaw = $maxMindIspRaw;
     }
 
-    public function parse(string $ip): GeoIpRecord
+    public function getIp(): string
     {
-        return $this->doParse($ip, false);
+        return $this->ip;
     }
 
-    public function parseExtended(string $ip): GeoIpRecordExtended
+    public function isValidIp(): ?bool
     {
-        return $this->doParse($ip, true);
+        return $this->isValidIp;
     }
 
-    /**
-     * @param string $ip
-     * @param bool $extended
-     * @return GeoIpRecord|GeoIpRecordExtended
-     * @noinspection DuplicatedCode
-     */
-    private function doParse(string $ip, bool $extended): GeoIpRecord
+    public function getCity(): ?string
     {
-        $this->initReaders();
-
-        $isValidIp = filter_var($ip, FILTER_VALIDATE_IP);
-
-        $sypexLatitude = null;
-        $sypexLongitude = null;
-        $sypexCity = null;
-        $sypexCountryCode = null;
-        $sypexCountry = null;
-        $maxMindCountryContinentCode = null;
-        $maxMindCountryCountryCode = null;
-        $maxMindCityCity = null;
-        $maxMindCityPostalCode = null;
-        $maxMindCityContinentCode = null;
-        $maxMindCityCountryCode = null;
-        $maxMindCityLatitude = null;
-        $maxMindCityLongitude = null;
-        $maxMindDomainDomain = null;
-        $maxMindIspAsn = null;
-        $maxMindIspAsnOrganization = null;
-        $maxMindIspIsp = null;
-        $maxMindIspOrganization = null;
-
-        if ($isValidIp) {
-            $sypexLocation = $this->sxGeo->getCityFull($ip);
-            $sypexLatitude = $sypexLocation['city']['lat'] ?? null;
-            $sypexLongitude = $sypexLocation['city']['lon'] ?? null;
-            $sypexCity = $sypexLocation['city']['name_en'] ?? null;
-            $sypexCountryCode = $sypexLocation['country']['iso'] ?? null;
-            $sypexCountry = $sypexLocation['country']['name_en'] ?? null;
-
-            try {
-                $maxMindCountry = $this->maxMindCountryReader->get($ip);
-                $maxMindCountryContinentCode = (!empty($maxMindCountry['continent'])) ? $maxMindCountry['continent']['code'] : null;
-                $maxMindCountryCountryCode = (!empty($maxMindCountry['country'])) ? $maxMindCountry['country']['iso_code'] : null;
-            } catch (Throwable $e) {
-            }
-            try {
-                $maxMindCity = $this->maxMindCityReader->get($ip);
-                $maxMindCityCity = (!empty($maxMindCity['city'])) ? $maxMindCity['city']['names']['en'] : null;
-                $maxMindCityPostalCode = (!empty($maxMindCity['postal'])) ? $maxMindCity['postal']['code'] : null;
-                $maxMindCityContinentCode = (!empty($maxMindCity['continent'])) ? $maxMindCity['continent']['code'] : null;
-                $maxMindCityCountryCode = (!empty($maxMindCity['country'])) ? $maxMindCity['country']['iso_code'] : null;
-                $maxMindCityLatitude = (!empty($maxMindCity['location'])) ? $maxMindCity['location']['latitude'] : null;
-                $maxMindCityLongitude = (!empty($maxMindCity['location'])) ? $maxMindCity['location']['longitude'] : null;
-            } catch (Throwable $e) {
-            }
-            try {
-                $maxMindDomain = $this->maxMindDomainReader->get($ip);
-                $maxMindDomainDomain = (!empty($maxMindDomain)) ? $maxMindDomain['domain'] : null;
-            } catch (Throwable $e) {
-            }
-            try {
-                $maxMindIsp = $this->maxMindIspReader->get($ip);
-                $maxMindIspAsn = (!empty($maxMindIsp) && !empty($maxMindIsp['autonomous_system_number'])) ? $maxMindIsp['autonomous_system_number'] : null;
-                $maxMindIspAsnOrganization = (!empty($maxMindIsp) && !empty($maxMindIsp['autonomous_system_organization'])) ? $maxMindIsp['autonomous_system_organization'] : null;
-                $maxMindIspIsp = (!empty($maxMindIsp) && !empty($maxMindIsp['isp'])) ? $maxMindIsp['isp'] : null;
-                $maxMindIspOrganization = (!empty($maxMindIsp) && !empty($maxMindIsp['organization'])) ? $maxMindIsp['organization'] : null;
-            } catch (Throwable $e) {
-            }
-        }
-
-        $class = $extended ? GeoIpRecordExtended::class : GeoIpRecord::class;
-
-        return new $class(
-            $ip,
-            $isValidIp,
-            $sypexLatitude,
-            $sypexLongitude,
-            $sypexCity,
-            $sypexCountryCode,
-            $sypexCountry,
-            $maxMindCountryContinentCode,
-            $maxMindCountryCountryCode,
-            $maxMindCityCity,
-            $maxMindCityPostalCode,
-            $maxMindCityContinentCode,
-            $maxMindCityCountryCode,
-            $maxMindCityLatitude,
-            $maxMindCityLongitude,
-            $maxMindDomainDomain,
-            $maxMindIspAsn,
-            $maxMindIspAsnOrganization,
-            $maxMindIspIsp,
-            $maxMindIspOrganization
-        );
+        return $this->maxMindCityCity ?? $this->sypexCity;
     }
 
-    private function initReaders(): void
+    public function getCountryCode(): ?string
     {
-        if (!$this->maxMindCityReader && $this->maxMindCityDbFilename) {
-            try {
-                $this->maxMindCityReader = new Reader($this->maxMindCityDbFilename);
-            } catch (InvalidDatabaseException $e) {
-            }
-        }
-        if (!$this->maxMindCountryReader && $this->maxMindCountryDbFilename) {
-            try {
-                $this->maxMindCountryReader = new Reader($this->maxMindCountryDbFilename);
-            } catch (InvalidDatabaseException $e) {
-            }
-        }
-        if (!$this->maxMindDomainReader && $this->maxMindDomainDbFilename) {
-            try {
-                $this->maxMindDomainReader = new Reader($this->maxMindDomainDbFilename);
-            } catch (InvalidDatabaseException $e) {
-            }
-        }
-        if (!$this->maxMindIspReader && $this->maxMindIspDbFilename) {
-            try {
-                $this->maxMindIspReader = new Reader($this->maxMindIspDbFilename);
-            } catch (InvalidDatabaseException $e) {
-            }
-        }
-        if (!$this->sxGeo && $this->sypexGeoMaxFilename) {
-            $this->sxGeo = new SxGeo($this->sypexGeoMaxFilename, SXGEO_BATCH | SXGEO_MEMORY);
-        }
+        return $this->maxMindCityCountryCode ?? $this->maxMindCountryCountryCode ?? $this->sypexCountryCode;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->maxMindCityCountry ?? $this->maxMindCountryCountry ?? $this->sypexCountry;
+    }
+
+    public function getContinentCode(): ?string
+    {
+        return $this->maxMindCityContinentCode ?? $this->maxMindCountryContinentCode ?? $this->sypexCountryContinentCode;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->maxMindCityPostalCode ?? $this->sypexCityPostalCode;
+    }
+
+    public function getDomain(): ?string
+    {
+        return $this->maxMindDomainDomain;
+    }
+
+    public function getAsnNumber(): ?string
+    {
+        return $this->maxMindIspAsnNumber;
+    }
+
+    public function getAsnOrganization(): ?string
+    {
+        return $this->maxMindIspAsnOrganization;
+    }
+
+    public function getIsp(): ?string
+    {
+        return $this->maxMindIspIsp;
+    }
+
+    public function getOrganization(): ?string
+    {
+        return $this->maxMindIspOrganization;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->maxMindCityLatitude ?? $this->sypexCityLatitude ?? $this->sypexRegionLatitude ?? $this->sypexCountryLatitude;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->maxMindCityLongitude ?? $this->sypexCityLongitude ?? $this->sypexRegionLongitude ?? $this->sypexCountryLongitude;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->sypexRegion;
+    }
+
+    public function getTimezone(): ?string
+    {
+        return $this->sypexRegionTimezone ?? $this->sypexCountryTimezone;
+    }
+
+    public function getCurrencyCode(): ?string
+    {
+        return $this->sypexCountryCurrencyCode;
+    }
+
+    public function getCityPopulation(): ?int
+    {
+        return $this->sypexCityPopulation;
+    }
+
+    public function getCityTel(): ?int
+    {
+        return $this->sypexCityTel;
+    }
+
+    public function getRegionAuto(): ?string
+    {
+        return $this->sypexRegionAuto;
+    }
+
+    public function getCountryArea(): ?int
+    {
+        return $this->sypexCountryArea;
+    }
+
+    public function getCountryPopulation(): ?int
+    {
+        return $this->sypexCountryPopulation;
+    }
+
+    public function getCountryCapital(): ?string
+    {
+        return $this->sypexCountryCapital;
+    }
+
+    public function getCountryPhoneCode(): ?string
+    {
+        return $this->sypexCountryPhoneCode;
+    }
+
+    public function getCountryNeighbours(): ?string
+    {
+        return $this->sypexCountryNeighbours;
     }
 }
