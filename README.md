@@ -99,9 +99,8 @@ Add to `config/services.yaml`
         ...
         Gupalo\GeoIp\GeoIpParser:
             arguments: ['%env(resolve:GEOIP_DIR)%']
-    
         Gupalo\GeoIp\Twig\GeoIpExtension:
-            tags: [twig.extension]
+            tags: ['twig.extension']
 
 Use with autowire
 
