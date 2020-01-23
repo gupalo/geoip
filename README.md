@@ -91,11 +91,17 @@ Symfony
 
 Add to `config/services.yaml`
 
-    Gupalo\GeoIp\GeoIpParser:
-        arguments: ['%kernel.project_dir%/data/geoip']
+    parameters:
+        ...
+        env(GEOIP_DIR): '%kernel.project_dir%/data/geoip'
 
-    Gupalo\GeoIp\Twig\GeoIpExtension:
-        tags: [twig.extension]
+    services:
+        ...
+        Gupalo\GeoIp\GeoIpParser:
+            arguments: ['%env(resolve:GEOIP_DIR)%']
+    
+        Gupalo\GeoIp\Twig\GeoIpExtension:
+            tags: [twig.extension]
 
 Use with autowire
 
