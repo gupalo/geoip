@@ -50,6 +50,8 @@ class GeoIpParser
     /** @var string */
     private $maxMindLanguage = self::MAX_MIND_LANGUAGE_EN;
 
+    private $isMaxMindLiteDatabaseUsed = false;
+
     /**
      * If you have not renamed GeoIP database files, it's enough to specify $dir
      *
@@ -88,6 +90,20 @@ class GeoIpParser
         return $this->doParse($ip, true);
     }
 
+    public function getCountry(string $ip): string
+    {
+        $geoIp = $this->parse($ip);
+
+        return (string)$geoIp->getCountry();
+    }
+
+    public function getCountryCode(string $ip): string
+    {
+        $geoIp = $this->parse($ip);
+
+        return (string)$geoIp->getCountryCode();
+    }
+
     /**
      * @param string $maxMindLanguage GeoIpParser:MAX_MIND_LANGUAGE_*
      */
@@ -104,6 +120,7 @@ class GeoIpParser
      */
     private function doParse(string $ip, bool $extended): GeoIp
     {
+        $ip = $this->fixIp($ip);
         $this->initReaders();
 
         $isValidIp = filter_var($ip, FILTER_VALIDATE_IP);
@@ -315,6 +332,11 @@ class GeoIpParser
         );
     }
 
+    public function isMaxMindLiteDatabaseUsed(): bool
+    {
+        return $this->isMaxMindLiteDatabaseUsed;
+    }
+
     private function initReaders(): void
     {
         if (!$this->maxMindCityReader && $this->maxMindCityDbFilename) {
@@ -358,16 +380,39 @@ class GeoIpParser
             $dir = rtrim($dir, '/') . '/';
         }
 
+        $maxMindCityDbFilename2 = $dir . ($maxMindCityDbFilename ?? 'GeoLite2-City.mmdb');
         $maxMindCityDbFilename = $dir . ($maxMindCityDbFilename ?? 'GeoIP2-City.mmdb');
+        $maxMindCountryDbFilename2 = $dir . ($maxMindCountryDbFilename ?? 'GeoLite2-Country.mmdb');
         $maxMindCountryDbFilename = $dir . ($maxMindCountryDbFilename ?? 'GeoIP2-Country.mmdb');
         $maxMindDomainDbFilename = $dir . ($maxMindDomainDbFilename ?? 'GeoIP2-Domain.mmdb');
         $maxMindIspDbFilename = $dir . ($maxMindIspDbFilename ?? 'GeoIP2-ISP.mmdb');
         $sypexGeoMaxFilename = $dir . ($sypexGeoMaxFilename ?? 'SxGeoMax.dat');
+
+        if (!is_file($maxMindCityDbFilename) && is_file($maxMindCityDbFilename2)) {
+            $maxMindCityDbFilename = $maxMindCityDbFilename2;
+            $this->isMaxMindLiteDatabaseUsed = true;
+        }
+        if (!is_file($maxMindCountryDbFilename) && is_file($maxMindCountryDbFilename2)) {
+            $maxMindCountryDbFilename = $maxMindCountryDbFilename2;
+            $this->isMaxMindLiteDatabaseUsed = true;
+        }
 
         $this->maxMindCityDbFilename = is_file($maxMindCityDbFilename) ? $maxMindCityDbFilename : null;
         $this->maxMindCountryDbFilename = is_file($maxMindCountryDbFilename) ? $maxMindCountryDbFilename : null;
         $this->maxMindDomainDbFilename = is_file($maxMindDomainDbFilename) ? $maxMindDomainDbFilename : null;
         $this->maxMindIspDbFilename = is_file($maxMindIspDbFilename) ? $maxMindIspDbFilename : null;
         $this->sypexGeoMaxFilename = is_file($sypexGeoMaxFilename) ? $sypexGeoMaxFilename : null;
+    }
+
+    private function fixIp(string $ip): string
+    {
+        $p = strpos($ip, ',');
+        if ($p !== false) {
+            $ip = substr($ip, 0, $p - 1);
+        }
+
+        $ip = trim($ip);
+
+        return $ip;
     }
 }
