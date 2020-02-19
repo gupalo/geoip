@@ -27,22 +27,26 @@ class GeoIpExtension extends AbstractExtension
         ];
     }
 
-    public function domainIp(string $host): string
+    public function domainIp(?string $host): string
     {
+        if ($host === null) {
+            return '';
+        }
+
         return gethostbyname($host);
     }
 
-    public function ipCountryCode(string $ip): string
+    public function ipCountryCode(?string $ip): string
     {
-        return $this->geoIpParser->getCountryCode($ip);
+        return ($ip !== null) ? $this->geoIpParser->getCountryCode($ip) : '';
     }
 
-    public function ipCountry(string $ip): string
+    public function ipCountry(?string $ip): string
     {
-        return $this->geoIpParser->getCountry($ip);
+        return ($ip !== null) ? $this->geoIpParser->getCountry($ip) : '';
     }
 
-    public function ipFlag(string $value): string
+    public function ipFlag(?string $value): string
     {
         $code = $this->ipCountryCode($value);
 
