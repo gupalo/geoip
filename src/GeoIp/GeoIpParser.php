@@ -193,7 +193,7 @@ class GeoIpParser
 
                 $sypexCityLatitude = $sypexCityRaw['city']['lat'] ?? null;
                 $sypexCityLongitude = $sypexCityRaw['city']['lon'] ?? null;
-                $sypexCity = $sypexCityRaw['city']['name_' . $sypexLanguage] ?? null;
+                $sypexCity = NameNormalizer::normalize($sypexCityRaw['city']['name_' . $sypexLanguage] ?? null);
                 $sypexCityOkato = !empty($sypexCityRaw['city']['okato']) ? (int)$sypexCityRaw['city']['okato'] : null;
                 $sypexCityVk = $sypexCityRaw['city']['vk'] ?? null;
                 $sypexCityPopulation = $sypexCityRaw['city']['population'] ?? null;
@@ -242,7 +242,7 @@ class GeoIpParser
                 $maxMindCityCountry = (!empty($maxMindCityRaw['country'])) ? $maxMindCityRaw['country']['names'][$this->maxMindLanguage] : null;
                 $maxMindCityRegisteredCountryCode = (!empty($maxMindCityRaw['registered_country'])) ? $maxMindCityRaw['registered_country']['iso_code'] : null;
                 $maxMindCityRegisteredCountry = (!empty($maxMindCityRaw['registered_country'])) ? $maxMindCityRaw['registered_country']['names'][$this->maxMindLanguage] : null;
-                $maxMindCityCity = (!empty($maxMindCityRaw['city'])) ? $maxMindCityRaw['city']['names'][$this->maxMindLanguage] : null;
+                $maxMindCityCity = NameNormalizer::normalize((!empty($maxMindCityRaw['city'])) ? $maxMindCityRaw['city']['names'][$this->maxMindLanguage] : null);
                 $maxMindCityPostalCode = (!empty($maxMindCityRaw['postal'])) ? $maxMindCityRaw['postal']['code'] : null;
                 $maxMindCityLatitude = (!empty($maxMindCityRaw['location'])) ? $maxMindCityRaw['location']['latitude'] : null;
                 $maxMindCityLongitude = (!empty($maxMindCityRaw['location'])) ? $maxMindCityRaw['location']['longitude'] : null;

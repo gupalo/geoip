@@ -4,11 +4,12 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "maxmind-db/reader": "^1.5"
     },
     "require-dev": {
-        "twig/twig": "^2.5|^3.0"
+        "twig/twig": "^2.5|^3.0",
+        "phpunit/phpunit": "^9.1"
     },
     "autoload": {
         "psr-4": {
