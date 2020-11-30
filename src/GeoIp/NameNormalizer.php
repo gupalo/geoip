@@ -5,7 +5,7 @@ namespace Gupalo\GeoIp;
 class NameNormalizer
 {
     private const TRANSLATIONS = [
-        'ë' => 'e',
+        'ë' => 'e', // strange utf-8 "ë", not russian "yo"
     ];
 
     private static ?array $keys = null;

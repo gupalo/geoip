@@ -9,6 +9,7 @@ class NameNormalizerTest extends TestCase
 {
 public function testNormalize(): void
     {
-        self::assertSame('RU/Linevo', NameNormalizer::normalize('RU/Linëvo'));
+        self::assertSame('ё', NameNormalizer::normalize('ё')); // russian "yo"
+        self::assertSame('RU/Linevo', NameNormalizer::normalize('RU/Linëvo')); // strange utf-8 "ë"
     }
 }
