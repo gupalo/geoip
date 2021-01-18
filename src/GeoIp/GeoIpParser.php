@@ -17,16 +17,16 @@ class GeoIpParser
     public const MAX_MIND_LANGUAGE_RU = 'ru';
     public const MAX_MIND_LANGUAGE_CN = 'zh-CN';
 
-    private ?string $maxMindCityDbFilename;
-    private ?string $maxMindCountryDbFilename;
-    private ?string $maxMindDomainDbFilename;
-    private ?string $maxMindIspDbFilename;
-    private ?string $sypexGeoMaxFilename;
-    private ?Reader $maxMindCityReader;
-    private ?Reader $maxMindCountryReader;
-    private ?Reader $maxMindDomainReader;
-    private ?Reader $maxMindIspReader;
-    private ?SxGeo $sxGeo;
+    private ?string $maxMindCityDbFilename = null;
+    private ?string $maxMindCountryDbFilename = null;
+    private ?string $maxMindDomainDbFilename = null;
+    private ?string $maxMindIspDbFilename = null;
+    private ?string $sypexGeoMaxFilename = null;
+    private ?Reader $maxMindCityReader = null;
+    private ?Reader $maxMindCountryReader = null;
+    private ?Reader $maxMindDomainReader = null;
+    private ?Reader $maxMindIspReader = null;
+    private ?SxGeo $sxGeo = null;
     private string $maxMindLanguage = self::MAX_MIND_LANGUAGE_EN;
     private bool $isMaxMindLiteDatabaseUsed = false;
 
