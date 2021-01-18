@@ -205,42 +205,42 @@ class GeoIpParser
 
             try {
                 $maxMindCountryRaw = $this->maxMindCountryReader->get($ip);
-                $maxMindCountryContinentCode = (!empty($maxMindCountryRaw['continent'])) ? $maxMindCountryRaw['continent']['code'] : null;
-                $maxMindCountryContinent = (!empty($maxMindCountryRaw['continent'])) ? $maxMindCountryRaw['continent']['names'][$this->maxMindLanguage] : null;
-                $maxMindCountryCountryCode = (!empty($maxMindCountryRaw['country'])) ? $maxMindCountryRaw['country']['iso_code'] : null;
-                $maxMindCountryCountry = (!empty($maxMindCountryRaw['country'])) ? $maxMindCountryRaw['country']['names'][$this->maxMindLanguage] : null;
-                $maxMindCountryRegisteredCountryCode = (!empty($maxMindCountryRaw['registered_country'])) ? $maxMindCountryRaw['registered_country']['iso_code'] : null;
-                $maxMindCountryRegisteredCountry = (!empty($maxMindCountryRaw['registered_country'])) ? $maxMindCountryRaw['registered_country']['names'][$this->maxMindLanguage] : null;
+                $maxMindCountryContinentCode = $maxMindCountryRaw['continent']['code'] ?? null;
+                $maxMindCountryContinent = $maxMindCountryRaw['continent']['names'][$this->maxMindLanguage] ?? null;
+                $maxMindCountryCountryCode = $maxMindCountryRaw['country']['iso_code'] ?? null;
+                $maxMindCountryCountry = $maxMindCountryRaw['country']['names'][$this->maxMindLanguage] ?? null;
+                $maxMindCountryRegisteredCountryCode = $maxMindCountryRaw['registered_country']['iso_code'] ?? null;
+                $maxMindCountryRegisteredCountry = $maxMindCountryRaw['registered_country']['names'][$this->maxMindLanguage] ?? null;
             } catch (Throwable) {
             }
             try {
-                $maxMindCityRaw = $this->maxMindCityReader->get($ip);
-                $maxMindCityContinentCode = (!empty($maxMindCityRaw['continent'])) ? $maxMindCityRaw['continent']['code'] : null;
-                $maxMindCityContinent = (!empty($maxMindCityRaw['continent'])) ? $maxMindCityRaw['continent']['names'][$this->maxMindLanguage] : null;
-                $maxMindCityCountryCode = (!empty($maxMindCityRaw['country'])) ? $maxMindCityRaw['country']['iso_code'] : null;
-                $maxMindCityCountry = (!empty($maxMindCityRaw['country'])) ? $maxMindCityRaw['country']['names'][$this->maxMindLanguage] : null;
-                $maxMindCityRegisteredCountryCode = (!empty($maxMindCityRaw['registered_country'])) ? $maxMindCityRaw['registered_country']['iso_code'] : null;
-                $maxMindCityRegisteredCountry = (!empty($maxMindCityRaw['registered_country'])) ? $maxMindCityRaw['registered_country']['names'][$this->maxMindLanguage] : null;
-                $maxMindCityCity = NameNormalizer::normalize((!empty($maxMindCityRaw['city'])) ? $maxMindCityRaw['city']['names'][$this->maxMindLanguage] : null);
-                $maxMindCityPostalCode = (!empty($maxMindCityRaw['postal'])) ? $maxMindCityRaw['postal']['code'] : null;
-                $maxMindCityLatitude = (!empty($maxMindCityRaw['location'])) ? $maxMindCityRaw['location']['latitude'] : null;
-                $maxMindCityLongitude = (!empty($maxMindCityRaw['location'])) ? $maxMindCityRaw['location']['longitude'] : null;
-                $maxMindCityLocationAccuracyRadius = (!empty($maxMindCityRaw['location'])) ? $maxMindCityRaw['location']['accuracy_radius'] : null;
-                $maxMindCityTimeZone = (!empty($maxMindCityRaw['location'])) ? $maxMindCityRaw['location']['timezone'] : null;
-                $maxMindCitySubdivision = (!empty($maxMindCityRaw['subdivisions'][0])) ? $maxMindCityRaw['subdivisions'][0]['names'][$this->maxMindLanguage] : null;
+                $maxMindCityRaw = $this->maxMindCityReader->get($ip) ?? [];
+                $maxMindCityContinentCode = $maxMindCityRaw['continent']['code'] ?? null;
+                $maxMindCityContinent = $maxMindCityRaw['continent']['names'][$this->maxMindLanguage] ?? null;
+                $maxMindCityCountryCode = $maxMindCityRaw['country']['iso_code'] ?? null;
+                $maxMindCityCountry = $maxMindCityRaw['country']['names'][$this->maxMindLanguage] ?? null;
+                $maxMindCityRegisteredCountryCode = $maxMindCityRaw['registered_country']['iso_code'] ?? null;
+                $maxMindCityRegisteredCountry = $maxMindCityRaw['registered_country']['names'][$this->maxMindLanguage] ?? null;
+                $maxMindCityCity = NameNormalizer::normalize($maxMindCityRaw['city']['names'][$this->maxMindLanguage] ?? null);
+                $maxMindCityPostalCode = $maxMindCityRaw['postal']['code'] ?? null;
+                $maxMindCityLatitude = $maxMindCityRaw['location']['latitude'] ?? null;
+                $maxMindCityLongitude = $maxMindCityRaw['location']['longitude'] ?? null;
+                $maxMindCityLocationAccuracyRadius = $maxMindCityRaw['location']['accuracy_radius'] ?? null;
+                $maxMindCityTimeZone = $maxMindCityRaw['location']['timezone'] ?? null;
+                $maxMindCitySubdivision = $maxMindCityRaw['subdivisions'][0]['names'][$this->maxMindLanguage] ?? null;
             } catch (Throwable) {
             }
             try {
-                $maxMindDomainRaw = $this->maxMindDomainReader->get($ip);
-                $maxMindDomainDomain = (!empty($maxMindDomainRaw)) ? $maxMindDomainRaw['domain'] : null;
+                $maxMindDomainRaw = $this->maxMindDomainReader->get($ip) ?? [];
+                $maxMindDomainDomain = $maxMindDomainRaw['domain'] ?? null;
             } catch (Throwable) {
             }
             try {
-                $maxMindIspRaw = $this->maxMindIspReader->get($ip);
-                $maxMindIspAsnNumber = (!empty($maxMindIspRaw) && !empty($maxMindIspRaw['autonomous_system_number'])) ? $maxMindIspRaw['autonomous_system_number'] : null;
-                $maxMindIspAsnOrganization = (!empty($maxMindIspRaw) && !empty($maxMindIspRaw['autonomous_system_organization'])) ? $maxMindIspRaw['autonomous_system_organization'] : null;
-                $maxMindIspIsp = (!empty($maxMindIspRaw) && !empty($maxMindIspRaw['isp'])) ? $maxMindIspRaw['isp'] : null;
-                $maxMindIspOrganization = (!empty($maxMindIspRaw) && !empty($maxMindIspRaw['organization'])) ? $maxMindIspRaw['organization'] : null;
+                $maxMindIspRaw = $this->maxMindIspReader->get($ip) ?? [];
+                $maxMindIspAsnNumber = $maxMindIspRaw['autonomous_system_number'] ?? null;
+                $maxMindIspAsnOrganization = $maxMindIspRaw['autonomous_system_organization'] ?? null;
+                $maxMindIspIsp = $maxMindIspRaw['isp'] ?? null;
+                $maxMindIspOrganization = $maxMindIspRaw['organization'] ?? null;
             } catch (Throwable) {
             }
         }
