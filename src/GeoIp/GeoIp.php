@@ -2,187 +2,70 @@
 
 namespace Gupalo\GeoIp;
 
-class GeoIp
+use JsonSerializable;
+
+class GeoIp implements JsonSerializable
 {
-    /** @var string */
-    protected $ip;
-
-    /** @var bool|null */
-    protected $isValidIp;
-
-    /** @var float|null */
-    protected $sypexCityLatitude;
-
-    /** @var float|null */
-    protected $sypexCityLongitude;
-
-    /** @var string|null */
-    protected $sypexCity;
-
-    /** @var int|null */
-    protected $sypexCityOkato;
-
-    /** @var bool|null */
-    protected $sypexCityVk;
-
-    /** @var int|null */
-    protected $sypexCityPopulation;
-
-    /** @var string|null */
-    protected $sypexCityTel;
-
-    /** @var string|null */
-    protected $sypexCityPostalCode;
-
-    /** @var float|null */
-    protected $sypexRegionLatitude;
-
-    /** @var float|null */
-    protected $sypexRegionLongitude;
-
-    /** @var string|null */
-    protected $sypexRegion;
-
-    /** @var string|null */
-    protected $sypexRegionCode;
-
-    /** @var string|null */
-    protected $sypexRegionTimezone;
-
-    /** @var int|null */
-    protected $sypexRegionOkato;
-
-    /** @var string|null */
-    protected $sypexRegionAuto;
-
-    /** @var bool|null */
-    protected $sypexRegionVk;
-
-    /** @var float|null */
-    protected $sypexCountryLatitude;
-
-    /** @var float|null */
-    protected $sypexCountryLongitude;
-
-    /** @var string|null */
-    protected $sypexCountry;
-
-    /** @var string|null */
-    protected $sypexCountryCode;
-
-    /** @var string|null */
-    protected $sypexCountryContinentCode;
-
-    /** @var string|null */
-    protected $sypexCountryTimezone;
-
-    /** @var int|null */
-    protected $sypexCountryArea;
-
-    /** @var int|null */
-    protected $sypexCountryPopulation;
-
-    /** @var string|null */
-    protected $sypexCountryCapital;
-
-    /** @var string|null */
-    protected $sypexCountryCurrencyCode;
-
-    /** @var string|null */
-    protected $sypexCountryPhoneCode;
-
-    /** @var string|null */
-    protected $sypexCountryNeighbours;
-
-    /** @var bool|null */
-    protected $sypexCountryVk;
-
-    /** @var string|null */
-    protected $maxMindCountryContinentCode;
-
-    /** @var string|null */
-    protected $maxMindCountryContinent;
-
-    /** @var string|null */
-    protected $maxMindCountryCountryCode;
-
-    /** @var string|null */
-    protected $maxMindCountryCountry;
-
-    /** @var string|null */
-    protected $maxMindCountryRegisteredCountryCode;
-
-    /** @var string|null */
-    protected $maxMindCountryRegisteredCountry;
-
-    /** @var string|null */
-    protected $maxMindCityCity;
-
-    /** @var string|null */
-    protected $maxMindCityContinentCode;
-
-    /** @var string|null */
-    protected $maxMindCityContinent;
-
-    /** @var string|null */
-    protected $maxMindCityCountryCode;
-
-    /** @var string|null */
-    protected $maxMindCityCountry;
-
-    /** @var string|null */
-    protected $maxMindCityRegisteredCountryCode;
-
-    /** @var string|null */
-    protected $maxMindCityRegisteredCountry;
-
-    /** @var float|null */
-    protected $maxMindCityLatitude;
-
-    /** @var float|null */
-    protected $maxMindCityLongitude;
-
-    /** @var float|null */
-    protected $maxMindCityLocationAccuracyRadius;
-
-    /** @var string|null */
-    protected $maxMindCitySubdivision;
-
-    /** @var string|null */
-    protected $maxMindCityTimeZone;
-
-    /** @var string|null */
-    protected $maxMindCityPostalCode;
-
-    /** @var string|null */
-    protected $maxMindDomainDomain;
-
-    /** @var string|null */
-    protected $maxMindIspAsnNumber;
-
-    /** @var string|null */
-    protected $maxMindIspAsnOrganization;
-
-    /** @var string|null */
-    protected $maxMindIspIsp;
-
-    /** @var string|null */
-    protected $maxMindIspOrganization;
-
-    /** @var mixed|null */
-    protected $sypexCityRaw;
-
-    /** @var mixed|null */
-    protected $maxMindCountryRaw;
-
-    /** @var mixed|null */
-    protected $maxMindCityRaw;
-
-    /** @var mixed|null */
-    protected $maxMindDomainRaw;
-
-    /** @var mixed|null */
-    protected $maxMindIspRaw;
+    protected ?string $ip;
+    protected ?bool $isValidIp;
+    protected ?float $sypexCityLatitude;
+    protected ?float $sypexCityLongitude;
+    protected ?string $sypexCity;
+    protected ?int $sypexCityOkato;
+    protected ?bool $sypexCityVk;
+    protected ?int $sypexCityPopulation;
+    protected ?string $sypexCityTel;
+    protected ?string $sypexCityPostalCode;
+    protected ?float $sypexRegionLatitude;
+    protected ?float $sypexRegionLongitude;
+    protected ?string $sypexRegion;
+    protected ?string $sypexRegionCode;
+    protected ?string $sypexRegionTimezone;
+    protected ?int $sypexRegionOkato;
+    protected ?string $sypexRegionAuto;
+    protected ?bool $sypexRegionVk;
+    protected ?float $sypexCountryLatitude;
+    protected ?float $sypexCountryLongitude;
+    protected ?string $sypexCountry;
+    protected ?string $sypexCountryCode;
+    protected ?string $sypexCountryContinentCode;
+    protected ?string $sypexCountryTimezone;
+    protected ?int $sypexCountryArea;
+    protected ?int $sypexCountryPopulation;
+    protected ?string $sypexCountryCapital;
+    protected ?string $sypexCountryCurrencyCode;
+    protected ?string $sypexCountryPhoneCode;
+    protected ?string $sypexCountryNeighbours;
+    protected ?bool $sypexCountryVk;
+    protected ?string $maxMindCountryContinentCode;
+    protected ?string $maxMindCountryContinent;
+    protected ?string $maxMindCountryCountryCode;
+    protected ?string $maxMindCountryCountry;
+    protected ?string $maxMindCountryRegisteredCountryCode;
+    protected ?string $maxMindCountryRegisteredCountry;
+    protected ?string $maxMindCityCity;
+    protected ?string $maxMindCityContinentCode;
+    protected ?string $maxMindCityContinent;
+    protected ?string $maxMindCityCountryCode;
+    protected ?string $maxMindCityCountry;
+    protected ?string $maxMindCityRegisteredCountryCode;
+    protected ?string $maxMindCityRegisteredCountry;
+    protected ?float $maxMindCityLatitude;
+    protected ?float $maxMindCityLongitude;
+    protected float|null|string $maxMindCityLocationAccuracyRadius;
+    protected ?string $maxMindCitySubdivision;
+    protected ?string $maxMindCityTimeZone;
+    protected ?string $maxMindCityPostalCode;
+    protected ?string $maxMindDomainDomain;
+    protected ?string $maxMindIspAsnNumber;
+    protected ?string $maxMindIspAsnOrganization;
+    protected ?string $maxMindIspIsp;
+    protected ?string $maxMindIspOrganization;
+    protected mixed $sypexCityRaw;
+    protected mixed $maxMindCountryRaw;
+    protected mixed $maxMindCityRaw;
+    protected mixed $maxMindDomainRaw;
+    protected mixed $maxMindIspRaw;
 
     public function __construct(
         ?string $ip,
@@ -433,5 +316,71 @@ class GeoIp
     public function getCountryNeighbours(): ?string
     {
         return $this->sypexCountryNeighbours;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'ip' => $this->ip,
+            'is_valid_ip' => $this->isValidIp,
+            'sypex_city_latitude' => $this->sypexCityLatitude,
+            'sypex_city_longitude' => $this->sypexCityLongitude,
+            'sypex_city' => $this->sypexCity,
+            'sypex_city_okato' => $this->sypexCityOkato,
+            'sypex_city_vk' => $this->sypexCityVk,
+            'sypex_city_population' => $this->sypexCityPopulation,
+            'sypex_city_tel' => $this->sypexCityTel,
+            'sypex_city_postal_code' => $this->sypexCityPostalCode,
+            'sypex_region_latitude' => $this->sypexRegionLatitude,
+            'sypex_region_longitude' => $this->sypexRegionLongitude,
+            'sypex_region' => $this->sypexRegion,
+            'sypex_region_code' => $this->sypexRegionCode,
+            'sypex_region_timezone' => $this->sypexRegionTimezone,
+            'sypex_region_okato' => $this->sypexRegionOkato,
+            'sypex_region_auto' => $this->sypexRegionAuto,
+            'sypex_region_vk' => $this->sypexRegionVk,
+            'sypex_country_latitude' => $this->sypexCountryLatitude,
+            'sypex_country_longitude' => $this->sypexCountryLongitude,
+            'sypex_country' => $this->sypexCountry,
+            'sypex_country_code' => $this->sypexCountryCode,
+            'sypex_country_continent_code' => $this->sypexCountryContinentCode,
+            'sypex_country_timezone' => $this->sypexCountryTimezone,
+            'sypex_country_area' => $this->sypexCountryArea,
+            'sypex_country_population' => $this->sypexCountryPopulation,
+            'sypex_country_capital' => $this->sypexCountryCapital,
+            'sypex_country_currency_code' => $this->sypexCountryCurrencyCode,
+            'sypex_country_phone_code' => $this->sypexCountryPhoneCode,
+            'sypex_country_neighbours' => $this->sypexCountryNeighbours,
+            'sypex_country_vk' => $this->sypexCountryVk,
+            'max_mind_country_continent_code' => $this->maxMindCountryContinentCode,
+            'max_mind_country_continent' => $this->maxMindCountryContinent,
+            'max_mind_country_country_code' => $this->maxMindCountryCountryCode,
+            'max_mind_country_country' => $this->maxMindCountryCountry,
+            'max_mind_country_registered_country_code' => $this->maxMindCountryRegisteredCountryCode,
+            'max_mind_country_registered_country' => $this->maxMindCountryRegisteredCountry,
+            'max_mind_city_city' => $this->maxMindCityCity,
+            'max_mind_city_continent_code' => $this->maxMindCityContinentCode,
+            'max_mind_city_continent' => $this->maxMindCityContinent,
+            'max_mind_city_country_code' => $this->maxMindCityCountryCode,
+            'max_mind_city_country' => $this->maxMindCityCountry,
+            'max_mind_city_registered_country_code' => $this->maxMindCityRegisteredCountryCode,
+            'max_mind_city_registered_country' => $this->maxMindCityRegisteredCountry,
+            'max_mind_city_latitude' => $this->maxMindCityLatitude,
+            'max_mind_city_longitude' => $this->maxMindCityLongitude,
+            'max_mind_city_location_accuracy_radius' => $this->maxMindCityLocationAccuracyRadius,
+            'max_mind_city_subdivision' => $this->maxMindCitySubdivision,
+            'max_mind_city_time_zone' => $this->maxMindCityTimeZone,
+            'max_mind_city_postal_code' => $this->maxMindCityPostalCode,
+            'max_mind_domain_domain' => $this->maxMindDomainDomain,
+            'max_mind_isp_asn_number' => $this->maxMindIspAsnNumber,
+            'max_mind_isp_asn_organization' => $this->maxMindIspAsnOrganization,
+            'max_mind_isp_isp' => $this->maxMindIspIsp,
+            'max_mind_isp_organization' => $this->maxMindIspOrganization,
+            'sypex_city_raw' => $this->sypexCityRaw,
+            'max_mind_country_raw' => $this->maxMindCountryRaw,
+            'max_mind_city_raw' => $this->maxMindCityRaw,
+            'max_mind_domain_raw' => $this->maxMindDomainRaw,
+            'max_mind_isp_raw' => $this->maxMindIspRaw,
+        ];
     }
 }

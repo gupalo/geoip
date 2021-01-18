@@ -17,40 +17,18 @@ class GeoIpParser
     public const MAX_MIND_LANGUAGE_RU = 'ru';
     public const MAX_MIND_LANGUAGE_CN = 'zh-CN';
 
-    /** @var string|null */
-    private $maxMindCityDbFilename;
-
-    /** @var string|null */
-    private $maxMindCountryDbFilename;
-
-    /** @var string|null */
-    private $maxMindDomainDbFilename;
-
-    /** @var string|null */
-    private $maxMindIspDbFilename;
-
-    /** @var string|null */
-    private $sypexGeoMaxFilename;
-
-    /** @var Reader|null */
-    private $maxMindCityReader;
-
-    /** @var Reader|null */
-    private $maxMindCountryReader;
-
-    /** @var Reader|null */
-    private $maxMindDomainReader;
-
-    /** @var Reader|null */
-    private $maxMindIspReader;
-
-    /** @var SxGeo|null */
-    private $sxGeo;
-
-    /** @var string */
-    private $maxMindLanguage = self::MAX_MIND_LANGUAGE_EN;
-
-    private $isMaxMindLiteDatabaseUsed = false;
+    private ?string $maxMindCityDbFilename;
+    private ?string $maxMindCountryDbFilename;
+    private ?string $maxMindDomainDbFilename;
+    private ?string $maxMindIspDbFilename;
+    private ?string $sypexGeoMaxFilename;
+    private ?Reader $maxMindCityReader;
+    private ?Reader $maxMindCountryReader;
+    private ?Reader $maxMindDomainReader;
+    private ?Reader $maxMindIspReader;
+    private ?SxGeo $sxGeo;
+    private string $maxMindLanguage = self::MAX_MIND_LANGUAGE_EN;
+    private bool $isMaxMindLiteDatabaseUsed = false;
 
     /**
      * If you have not renamed GeoIP database files, it's enough to specify $dir
@@ -117,6 +95,7 @@ class GeoIpParser
      * @param bool $extended
      * @return GeoIp|GeoIpExtended
      * @noinspection DuplicatedCode
+     * @noinspection PhpDocSignatureInspection
      */
     private function doParse(string $ip, bool $extended): GeoIp
     {
@@ -232,7 +211,7 @@ class GeoIpParser
                 $maxMindCountryCountry = (!empty($maxMindCountryRaw['country'])) ? $maxMindCountryRaw['country']['names'][$this->maxMindLanguage] : null;
                 $maxMindCountryRegisteredCountryCode = (!empty($maxMindCountryRaw['registered_country'])) ? $maxMindCountryRaw['registered_country']['iso_code'] : null;
                 $maxMindCountryRegisteredCountry = (!empty($maxMindCountryRaw['registered_country'])) ? $maxMindCountryRaw['registered_country']['names'][$this->maxMindLanguage] : null;
-            } catch (Throwable $e) {
+            } catch (Throwable) {
             }
             try {
                 $maxMindCityRaw = $this->maxMindCityReader->get($ip);
@@ -249,12 +228,12 @@ class GeoIpParser
                 $maxMindCityLocationAccuracyRadius = (!empty($maxMindCityRaw['location'])) ? $maxMindCityRaw['location']['accuracy_radius'] : null;
                 $maxMindCityTimeZone = (!empty($maxMindCityRaw['location'])) ? $maxMindCityRaw['location']['timezone'] : null;
                 $maxMindCitySubdivision = (!empty($maxMindCityRaw['subdivisions'][0])) ? $maxMindCityRaw['subdivisions'][0]['names'][$this->maxMindLanguage] : null;
-            } catch (Throwable $e) {
+            } catch (Throwable) {
             }
             try {
                 $maxMindDomainRaw = $this->maxMindDomainReader->get($ip);
                 $maxMindDomainDomain = (!empty($maxMindDomainRaw)) ? $maxMindDomainRaw['domain'] : null;
-            } catch (Throwable $e) {
+            } catch (Throwable) {
             }
             try {
                 $maxMindIspRaw = $this->maxMindIspReader->get($ip);
@@ -262,7 +241,7 @@ class GeoIpParser
                 $maxMindIspAsnOrganization = (!empty($maxMindIspRaw) && !empty($maxMindIspRaw['autonomous_system_organization'])) ? $maxMindIspRaw['autonomous_system_organization'] : null;
                 $maxMindIspIsp = (!empty($maxMindIspRaw) && !empty($maxMindIspRaw['isp'])) ? $maxMindIspRaw['isp'] : null;
                 $maxMindIspOrganization = (!empty($maxMindIspRaw) && !empty($maxMindIspRaw['organization'])) ? $maxMindIspRaw['organization'] : null;
-            } catch (Throwable $e) {
+            } catch (Throwable) {
             }
         }
 
@@ -342,25 +321,25 @@ class GeoIpParser
         if (!$this->maxMindCityReader && $this->maxMindCityDbFilename) {
             try {
                 $this->maxMindCityReader = new Reader($this->maxMindCityDbFilename);
-            } catch (InvalidDatabaseException $e) {
+            } catch (InvalidDatabaseException) {
             }
         }
         if (!$this->maxMindCountryReader && $this->maxMindCountryDbFilename) {
             try {
                 $this->maxMindCountryReader = new Reader($this->maxMindCountryDbFilename);
-            } catch (InvalidDatabaseException $e) {
+            } catch (InvalidDatabaseException) {
             }
         }
         if (!$this->maxMindDomainReader && $this->maxMindDomainDbFilename) {
             try {
                 $this->maxMindDomainReader = new Reader($this->maxMindDomainDbFilename);
-            } catch (InvalidDatabaseException $e) {
+            } catch (InvalidDatabaseException) {
             }
         }
         if (!$this->maxMindIspReader && $this->maxMindIspDbFilename) {
             try {
                 $this->maxMindIspReader = new Reader($this->maxMindIspDbFilename);
-            } catch (InvalidDatabaseException $e) {
+            } catch (InvalidDatabaseException) {
             }
         }
         if (!$this->sxGeo && $this->sypexGeoMaxFilename) {

@@ -8,8 +8,7 @@ use Twig\TwigFilter;
 
 class GeoIpExtension extends AbstractExtension
 {
-    /** @var GeoIpParser */
-    private $geoIpParser;
+    private GeoIpParser $geoIpParser;
 
     public function __construct(GeoIpParser $geoIpParser)
     {
