@@ -74,7 +74,7 @@ class GeoIpTest extends TestCase
 
         $this->assertSame('1.1.1.1', $geoIpRecord->getIp());
         $this->assertTrue($geoIpRecord->isValidIp());
-        $this->assertSame('Ontario', $geoIpRecord->getCitySubdivision());
+        $this->assertSame('Ontario', $geoIpRecord->getRegion());
         $this->assertSame('Moscow', $geoIpRecord->getCity());
         $this->assertSame('RU', $geoIpRecord->getCountryCode());
         $this->assertSame('Russia', $geoIpRecord->getCountry());

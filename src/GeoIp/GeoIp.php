@@ -208,11 +208,6 @@ class GeoIp implements JsonSerializable
         return $this->maxMindCityCity ?? $this->sypexCity;
     }
 
-    public function getCitySubdivision(): ?string
-    {
-        return $this->maxMindCitySubdivision;
-    }
-
     public function getCountryCode(): ?string
     {
         return $this->maxMindCityCountryCode ?? $this->maxMindCountryCountryCode ?? $this->sypexCountryCode;
@@ -270,7 +265,7 @@ class GeoIp implements JsonSerializable
 
     public function getRegion(): ?string
     {
-        return $this->sypexRegion;
+        return $this->maxMindCitySubdivision ?? $this->sypexRegion;
     }
 
     public function getTimezone(): ?string
