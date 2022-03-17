@@ -5,10 +5,13 @@ namespace Gupalo\Tests\GeoIp\Twig;
 use Gupalo\GeoIp\GeoIpParser;
 use Gupalo\GeoIp\Twig\GeoIpExtension;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Twig\TwigFilter;
 
 class GeoIpExtensionTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var GeoIpParser */
     private $geoIpParser;
 

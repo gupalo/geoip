@@ -62,7 +62,7 @@ class GeoIpTest extends TestCase
             55.7527, // float $maxMindCityLatitude
             37.6172, // float $maxMindCityLongitude
             1, // string $maxMindCityLocationAccuracyRadius
-            '', // string $maxMindCitySubdivision
+            'Ontario', // string $maxMindCitySubdivision
             '', // string $maxMindCityTimeZone
             129128, // string $maxMindCityPostalCode
             'corbina.ru', // string $maxMindDomainDomain
@@ -74,6 +74,7 @@ class GeoIpTest extends TestCase
 
         $this->assertSame('1.1.1.1', $geoIpRecord->getIp());
         $this->assertTrue($geoIpRecord->isValidIp());
+        $this->assertSame('Ontario', $geoIpRecord->getCitySubdivision());
         $this->assertSame('Moscow', $geoIpRecord->getCity());
         $this->assertSame('RU', $geoIpRecord->getCountryCode());
         $this->assertSame('Russia', $geoIpRecord->getCountry());
