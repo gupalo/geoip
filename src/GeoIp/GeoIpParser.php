@@ -41,12 +41,12 @@ class GeoIpParser
      * @param string|null $sypexGeoMaxFilename
      */
     public function __construct(
-        string $dir = null,
-        string $maxMindCityDbFilename = null,
-        string $maxMindCountryDbFilename = null,
-        string $maxMindDomainDbFilename = null,
-        string $maxMindIspDbFilename = null,
-        string $sypexGeoMaxFilename = null
+        ?string $dir = null,
+        ?string $maxMindCityDbFilename = null,
+        ?string $maxMindCountryDbFilename = null,
+        ?string $maxMindDomainDbFilename = null,
+        ?string $maxMindIspDbFilename = null,
+        ?string $sypexGeoMaxFilename = null
     ) {
         $this->initFilenames(
             $dir,
